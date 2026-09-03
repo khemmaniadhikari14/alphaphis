@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SpinWheel } from '../components/SpinWheel';
 import { RedeemModal } from '../components/RedeemModal';
 import { ScamAlertOverlay } from '../components/ScamAlertOverlay';
@@ -15,6 +15,19 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
   const [isRedeemOpen, setIsRedeemOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [lastSubmission, setLastSubmission] = useState<UserSubmission | null>(null);
+
+  useEffect(() => {
+    const shouldLockScroll = isRedeemOpen || isAlertOpen;
+    const previousOverflow = document.body.style.overflow;
+
+    if (shouldLockScroll) {
+      document.body.style.overflow = 'hidden';
+    }
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isAlertOpen, isRedeemOpen]);
 
   const handlePrizeWon = (prize: Prize) => {
     setWonPrize(prize);

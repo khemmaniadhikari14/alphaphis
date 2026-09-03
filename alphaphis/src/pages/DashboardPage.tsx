@@ -35,6 +35,18 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigate }) => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedSubmission, setSelectedSubmission] = useState<UserSubmission | null>(null);
 
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+
+    if (selectedSubmission) {
+      document.body.style.overflow = 'hidden';
+    }
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [selectedSubmission]);
+
   // Authentication protection: redirect if not logged in
   useEffect(() => {
     if (!isAuthenticated) {

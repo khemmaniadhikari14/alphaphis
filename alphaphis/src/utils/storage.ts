@@ -6,6 +6,7 @@ const STORAGE_KEY = 'phishing_demo_submissions';
 const LEGACY_PRIZE_NAMES: Record<string, string> = {
   'iPhone 16 Pro': 'RS 500 for free',
   'Starbucks $50 Card': 'Free Dining',
+  'Wireless Headphones': 'Free Dining',
 };
 
 // Initial educational seed data representing simulated campus phishing catches
@@ -42,7 +43,7 @@ const INITIAL_DEMO_DATA: UserSubmission[] = [
     email: 'emma.watson@student.edu',
     phone: '555-000-4821',
     dob: '2002-08-05',
-    prize: 'Wireless Headphones',
+    prize: 'Free Dining',
     status: 'Verified',
     timestamp: new Date(Date.now() - 1000 * 60 * 140).toISOString(),
     calculatedAge: 24,

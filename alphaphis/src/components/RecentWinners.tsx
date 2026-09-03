@@ -1,5 +1,5 @@
 import React from 'react';
-import { Award, Clock, Sparkles, CheckCircle } from 'lucide-react';
+import { Award, Clock, Sparkles } from 'lucide-react';
 import { Winner } from '../types';
 
 const STATIC_WINNERS: Winner[] = [
@@ -25,7 +25,7 @@ const STATIC_WINNERS: Winner[] = [
     id: 'win_3',
     name: 'Archan Karki',
     initials: 'AK',
-    prize: 'Wireless Headphones',
+    prize: 'Free Dining',
     department: 'Business & Finance',
     timeAgo: '11 minutes ago',
     avatarColor: 'bg-orange-600 text-white',
@@ -113,13 +113,6 @@ export const RecentWinners: React.FC = () => {
                 Won: {winner.prize}
               </p>
 
-              <div className="flex items-center gap-1 text-[11px] text-neutral-500 mt-1 truncate">
-                <span>{winner.department}</span>
-                <span>•</span>
-                <span className="text-emerald-600 font-medium flex items-center gap-0.5">
-                  <CheckCircle className="w-3 h-3" /> Claimed
-                </span>
-              </div>
             </div>
           </div>
         ))}

@@ -24,15 +24,6 @@ export const PRIZES: Prize[] = [
   },
   {
     id: 2,
-    name: 'Wireless Headphones',
-    tagline: 'Sony Noise-Canceling',
-    color: '#7c3aed', // Purple
-    textColor: '#ffffff',
-    accentColor: '#a78bfa',
-    iconName: 'Headphones',
-  },
-  {
-    id: 3,
     name: 'Free coffee Party',
     tagline: 'Enjoy coffee as per your choice',
     color: '#ea580c', // Orange
@@ -41,7 +32,7 @@ export const PRIZES: Prize[] = [
     iconName: 'Coffee',
   },
   {
-    id: 4,
+    id: 3,
     name: 'Rs 100 recharge',
     tagline: 'Keep your sim upto date',
     color: '#db2777', // Pink/Rose
@@ -50,7 +41,7 @@ export const PRIZES: Prize[] = [
     iconName: 'Gift',
   },
   {
-    id: 5,
+    id: 4,
     name: 'Free airbuds',
     tagline: 'Free Ultima lifestyle BoomSleek Airbuds',
     color: '#0d9488', // Teal
@@ -59,7 +50,7 @@ export const PRIZES: Prize[] = [
     iconName: 'Headphones',
   },
   {
-    id: 6,
+    id: 5,
     name: 'Try Again',
     tagline: 'Spin once more for another chance to win',
     color: '#475569', // Slate

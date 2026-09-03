@@ -44,7 +44,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           </h1>
 
           <p className="text-sm sm:text-base text-neutral-600 mt-2 leading-relaxed">
-            All registered undergraduate and graduate students get 1 free lucky spin. Win RS 500 for free, Free Dining, Wireless Headphones, Free coffee Party, Rs 100 recharge, or Free airbuds!
+            All registered undergraduate and graduate students get 1 free lucky spin. Win RS 500 for free, Free Dining, Free coffee Party, Rs 100 recharge, or Free airbuds!
           </p>
         </div>
 

@@ -1,0 +1,8 @@
+{
+  "name": "College Phishing Awareness Demo",
+  "description": "Interactive cybersecurity phishing awareness demonstration with prize spin wheel, credential harvesting simulation, scam alert breakdown, and administrator telemetry dashboard.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

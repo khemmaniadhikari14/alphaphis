@@ -58,6 +58,15 @@ export const PRIZES: Prize[] = [
     accentColor: '#2dd4bf',
     iconName: 'Headphones',
   },
+  {
+    id: 6,
+    name: 'Try Again',
+    tagline: 'Spin once more for another chance to win',
+    color: '#475569', // Slate
+    textColor: '#ffffff',
+    accentColor: '#94a3b8',
+    iconName: 'Gift',
+  },
 ];
 
 interface SpinWheelProps {
@@ -94,6 +103,8 @@ export const SpinWheel: React.FC<SpinWheelProps> = ({
         return <Gift className="w-5 h-5" />;
     }
   };
+
+  const isTryAgain = wonPrize?.name === 'Try Again';
 
   const handleSpin = () => {
     if (isSpinning) return;
@@ -266,7 +277,7 @@ export const SpinWheel: React.FC<SpinWheelProps> = ({
             {getPrizeIcon(wonPrize.iconName)}
           </div>
           <p className="text-xs uppercase font-bold tracking-widest text-amber-800">
-            🎉 Congratulations! You Won
+            {isTryAgain ? 'Keep going!' : '🎉 Congratulations! You Won'}
           </p>
           <h3 className="text-xl font-extrabold text-neutral-900 mt-0.5">
             {wonPrize.name}
@@ -274,14 +285,16 @@ export const SpinWheel: React.FC<SpinWheelProps> = ({
           <p className="text-xs text-neutral-500 mt-1">{wonPrize.tagline}</p>
 
           <div className="mt-4 flex flex-col sm:flex-row gap-2.5 justify-center">
-            <button
-              id="redeem-prize-button"
-              onClick={onOpenRedeem}
-              className="w-full py-3 px-6 rounded-lg bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-bold text-sm tracking-wide shadow-md shadow-emerald-600/20 transition-all flex items-center justify-center gap-2 animate-pulse"
-            >
-              <Sparkles className="w-4 h-4" />
-              <span>Redeem & Claim Prize</span>
-            </button>
+            {!isTryAgain && (
+              <button
+                id="redeem-prize-button"
+                onClick={onOpenRedeem}
+                className="w-full py-3 px-6 rounded-lg bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-bold text-sm tracking-wide shadow-md shadow-emerald-600/20 transition-all flex items-center justify-center gap-2 animate-pulse"
+              >
+                <Sparkles className="w-4 h-4" />
+                <span>Redeem & Claim Prize</span>
+              </button>
+            )}
             <button
               id="spin-again-button"
               onClick={handleSpin}
@@ -292,10 +305,12 @@ export const SpinWheel: React.FC<SpinWheelProps> = ({
             </button>
           </div>
 
-          <p className="text-[11px] text-red-600 font-medium mt-2 flex items-center justify-center gap-1">
-            <AlertTriangle className="w-3 h-3 text-red-500" />
-            Limited time: Claim within 5 minutes or prize will be forfeited
-          </p>
+          {!isTryAgain && (
+            <p className="text-[11px] text-red-600 font-medium mt-2 flex items-center justify-center gap-1">
+              <AlertTriangle className="w-3 h-3 text-red-500" />
+              Limited time: Claim within 5 minutes or prize will be forfeited
+            </p>
+          )}
         </div>
       )}
 

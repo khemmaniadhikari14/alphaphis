@@ -1,12 +1,12 @@
 import React from 'react';
-import { Award, Clock, Sparkles, CheckCircle, Info } from 'lucide-react';
+import { Award, Clock, Sparkles, CheckCircle } from 'lucide-react';
 import { Winner } from '../types';
 
 const STATIC_WINNERS: Winner[] = [
   {
     id: 'win_1',
-    name: 'Aayush Sharma',
-    initials: 'AS',
+    name: 'Gunaraj Adhikari',
+    initials: 'GA',
     prize: 'RS 500 for free',
     department: 'School of Medicine',
     timeAgo: '2 minutes ago',
@@ -14,8 +14,8 @@ const STATIC_WINNERS: Winner[] = [
   },
   {
     id: 'win_2',
-    name: 'Prakriti Karki',
-    initials: 'PK',
+    name: 'Khemmani Adhikari',
+    initials: 'KA',
     prize: 'Free Dining',
     department: 'Computer Science Dept',
     timeAgo: '6 minutes ago',
@@ -23,8 +23,8 @@ const STATIC_WINNERS: Winner[] = [
   },
   {
     id: 'win_3',
-    name: 'Sujan Poudel',
-    initials: 'SP',
+    name: 'Archan Karki',
+    initials: 'AK',
     prize: 'Wireless Headphones',
     department: 'Business & Finance',
     timeAgo: '11 minutes ago',
@@ -32,8 +32,8 @@ const STATIC_WINNERS: Winner[] = [
   },
   {
     id: 'win_4',
-    name: 'Anisha Thapa',
-    initials: 'AT',
+    name: 'Aakrist Baral',
+    initials: 'AB',
     prize: 'Free coffee Party',
     department: 'Arts & Humanities',
     timeAgo: '19 minutes ago',
@@ -41,8 +41,8 @@ const STATIC_WINNERS: Winner[] = [
   },
   {
     id: 'win_5',
-    name: 'Bikash Lama',
-    initials: 'BL',
+    name: 'Siddhant Kafle',
+    initials: 'SK',
     prize: 'Rs 100 recharge',
     department: 'Mechanical Engineering',
     timeAgo: '28 minutes ago',
@@ -50,8 +50,8 @@ const STATIC_WINNERS: Winner[] = [
   },
   {
     id: 'win_6',
-    name: 'Nisha Shrestha',
-    initials: 'NS',
+    name: 'Akul Dhakal',
+    initials: 'AD',
     prize: 'Free airbuds',
     department: 'Law & Justice',
     timeAgo: '35 minutes ago',
@@ -125,13 +125,6 @@ export const RecentWinners: React.FC = () => {
         ))}
       </div>
 
-      {/* Phishing Analysis Callout for this component */}
-      <div className="mt-4 p-3.5 rounded-xl bg-neutral-100/80 border border-neutral-200 text-neutral-700 text-xs flex items-start gap-2.5">
-        <Info className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
-        <p className="leading-relaxed">
-          <strong className="text-neutral-900">Psychological Anatomy:</strong> Scammers frequently embed static or dynamically fabricated "Winner Feeds" on fraudulent giveaway pages. By showing recognizable department names and recent timestamps, it manufactures artificial social proof to trick students into trusting the site.
-        </p>
-      </div>
     </div>
   );
 };

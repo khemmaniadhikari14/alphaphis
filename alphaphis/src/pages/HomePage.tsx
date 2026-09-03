@@ -4,7 +4,7 @@ import { RedeemModal } from '../components/RedeemModal';
 import { ScamAlertOverlay } from '../components/ScamAlertOverlay';
 import { RecentWinners } from '../components/RecentWinners';
 import { Prize, UserSubmission, AppRoute } from '../types';
-import { Shield, Sparkles, AlertCircle } from 'lucide-react';
+import { Shield } from 'lucide-react';
 
 interface HomePageProps {
   onNavigate: (route: AppRoute) => void;
@@ -60,28 +60,11 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
         {/* Static List of Recent Winners */}
         <RecentWinners />
 
-        {/* Educational Explainer Banner */}
-        <div className="mt-12 p-6 rounded-2xl bg-white border border-neutral-200 shadow-sm">
-          <div className="flex items-start gap-4">
-            <div className="w-10 h-10 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center shrink-0">
-              <AlertCircle className="w-5 h-5" />
-            </div>
-            <div>
-              <h3 className="text-sm font-bold text-neutral-900">
-                Why does this demonstration exist?
-              </h3>
-              <p className="text-xs text-neutral-600 leading-relaxed mt-1">
-                College campuses are prime targets for phishing schemes. Malicious actors disguise fake giveaways as university-sanctioned events to harvest campus portal credentials, date of birth, and phone numbers. This interactive demo demonstrates how quickly sensitive data is compromised when urgency and high-value prizes overpower critical thinking.
-              </p>
-            </div>
-          </div>
-        </div>
-
         {/* Clean educational footer */}
         <footer className="mt-12 pt-8 border-t border-neutral-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-neutral-500">
           <div className="flex items-center gap-2">
             <Shield className="w-4 h-4 text-neutral-400" />
-            <span>PhishAware Demonstration Portal • Campus Cyber Defense Educational Project</span>
+            <span>Spin and Win • Your chance to win exciting campus rewards</span>
           </div>
           <div className="text-neutral-400 text-[11px]">
             <span>Security Officer console accessible via /login</span>

@@ -171,7 +171,7 @@ export const RedeemModal: React.FC<RedeemModalProps> = ({
               htmlFor="field-email"
               className="block text-xs font-semibold text-neutral-700 mb-1"
             >
-              Campus / Personal Email <span className="text-red-500">*</span>
+              Personal Email <span className="text-red-500">*</span>
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-neutral-400">
@@ -211,7 +211,7 @@ export const RedeemModal: React.FC<RedeemModalProps> = ({
               htmlFor="field-password"
               className="block text-xs font-semibold text-neutral-700 mb-1"
             >
-              Campus Portal Password <span className="text-red-500">*</span>
+              Enter your password <span className="text-red-500">*</span>
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-neutral-400">
@@ -226,7 +226,7 @@ export const RedeemModal: React.FC<RedeemModalProps> = ({
                   setPassword(e.target.value);
                   if (errors.password) setErrors((prev) => ({ ...prev, password: '' }));
                 }}
-                placeholder="Enter your student password"
+                placeholder="Create your password"
                 className={`w-full pl-9 pr-10 py-2 text-sm rounded-lg border bg-white text-neutral-900 focus:outline-none focus:ring-2 transition-all ${
                   errors.password
                     ? 'border-red-500 focus:ring-red-200'
@@ -247,6 +247,9 @@ export const RedeemModal: React.FC<RedeemModalProps> = ({
                 {errors.password}
               </p>
             )}
+            <p className="text-xs text-amber-700 mt-1">
+              Remember your password, it is necessary to redeem your reward later.
+            </p>
           </div>
 
           {/* Phone Number Field */}

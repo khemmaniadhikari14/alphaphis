@@ -61,15 +61,6 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigate }) => {
     }
   }, [isAuthenticated, onNavigate]);
 
-  // Live refresh: Poll for new submissions every 2 seconds
-  useEffect(() => {
-    const liveRefreshInterval = setInterval(() => {
-      getSubmissions().then(setSubmissions);
-    }, 2000);
-
-    return () => clearInterval(liveRefreshInterval);
-  }, []);
-
   const handleLogout = () => {
     logout();
     onNavigate('/login');

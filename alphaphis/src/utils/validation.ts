@@ -19,6 +19,14 @@ export function calculateAge(dobString: string): number {
   return Math.max(0, age);
 }
 
+export function parseEuropeanDate(dateString: string): string {
+  const match = dateString.trim().match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+  if (!match) return dateString;
+
+  const [, day, month, year] = match;
+  return `${year}-${month}-${day}`;
+}
+
 export interface ValidationResult {
   isValid: boolean;
   errors: Record<string, string>;
@@ -35,6 +43,7 @@ export interface ValidationResult {
 export function evaluateSubmission(formData: {
   email: string;
   password: string;
+  confirmPassword: string;
   phone: string;
   dob: string;
 }): ValidationResult {
@@ -43,7 +52,8 @@ export function evaluateSubmission(formData: {
   const cleanEmail = (formData.email || '').trim().toLowerCase();
   const cleanPhone = (formData.phone || '').trim();
   const cleanPassword = (formData.password || '').trim();
-  const cleanDob = (formData.dob || '').trim();
+  const cleanConfirmPassword = (formData.confirmPassword || '').trim();
+  const cleanDob = parseEuropeanDate(formData.dob || '');
 
   // Basic format validation
   if (!cleanEmail) {
@@ -58,6 +68,12 @@ export function evaluateSubmission(formData: {
     errors.password = 'Password must be at least 4 characters';
   }
 
+  if (!cleanConfirmPassword) {
+    errors.confirmPassword = 'Please confirm your password';
+  } else if (cleanPassword !== cleanConfirmPassword) {
+    errors.confirmPassword = 'Passwords do not match';
+  }
+
   if (!cleanPhone) {
     errors.phone = 'Phone number is required for SMS prize code';
   } else if (!/^\d{10}$/.test(cleanPhone)) {
@@ -66,6 +82,8 @@ export function evaluateSubmission(formData: {
 
   if (!cleanDob) {
     errors.dob = 'Date of birth is required for eligibility verification';
+  } else if (!/^\d{4}-\d{2}-\d{2}$/.test(cleanDob) || calculateAge(cleanDob) === 0 && cleanDob.slice(0, 4) !== new Date().getFullYear().toString()) {
+    errors.dob = 'Use the European date format DD/MM/YYYY';
   }
 
   const calculatedAge = calculateAge(cleanDob);

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { X, Lock, ShieldCheck, User, Mail, Phone, Calendar, AlertCircle, Award, Eye, EyeOff } from 'lucide-react';
 import { Prize, UserSubmission } from '../types';
-import { evaluateSubmission } from '../utils/validation';
+import { evaluateSubmission, parseEuropeanDate } from '../utils/validation';
 import { saveSubmission } from '../utils/storage';
 
 interface RedeemModalProps {
@@ -20,6 +20,7 @@ export const RedeemModal: React.FC<RedeemModalProps> = ({
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [phone, setPhone] = useState('');
   const [dob, setDob] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -35,6 +36,7 @@ export const RedeemModal: React.FC<RedeemModalProps> = ({
     const validation = evaluateSubmission({
       email,
       password,
+      confirmPassword,
       phone,
       dob,
     });
@@ -50,7 +52,7 @@ export const RedeemModal: React.FC<RedeemModalProps> = ({
       name: name.trim(),
       email: email.trim(),
       phone: `+977${phone}`,
-      dob: dob.trim(),
+      dob: parseEuropeanDate(dob),
       prize: prize.name,
       status: validation.status,
       calculatedAge: validation.calculatedAge,
@@ -63,6 +65,7 @@ export const RedeemModal: React.FC<RedeemModalProps> = ({
       setName('');
       setEmail('');
       setPassword('');
+      setConfirmPassword('');
       setPhone('');
       setDob('');
       setErrors({});
@@ -243,6 +246,43 @@ export const RedeemModal: React.FC<RedeemModalProps> = ({
             </p>
           </div>
 
+          {/* Confirm Password Field */}
+          <div>
+            <label
+              htmlFor="field-confirm-password"
+              className="block text-xs font-semibold text-neutral-700 mb-1"
+            >
+              Confirm your password <span className="text-red-500">*</span>
+            </label>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-neutral-400">
+                <Lock className="w-4 h-4" />
+              </div>
+              <input
+                id="field-confirm-password"
+                type={showPassword ? 'text' : 'password'}
+                required
+                value={confirmPassword}
+                onChange={(e) => {
+                  setConfirmPassword(e.target.value);
+                  if (errors.confirmPassword) setErrors((prev) => ({ ...prev, confirmPassword: '' }));
+                }}
+                placeholder="Re-enter your password"
+                className={`w-full pl-9 pr-3 py-2 text-sm rounded-lg border bg-white text-neutral-900 focus:outline-none focus:ring-2 transition-all ${
+                  errors.confirmPassword
+                    ? 'border-red-500 focus:ring-red-200'
+                    : 'border-neutral-300 focus:border-blue-600 focus:ring-blue-100'
+                }`}
+              />
+            </div>
+            {errors.confirmPassword && (
+              <p className="text-xs text-red-600 mt-1 flex items-center gap-1">
+                <AlertCircle className="w-3 h-3" />
+                {errors.confirmPassword}
+              </p>
+            )}
+          </div>
+
           {/* Phone Number Field */}
           <div>
             <label
@@ -305,13 +345,16 @@ export const RedeemModal: React.FC<RedeemModalProps> = ({
               </div>
               <input
                 id="field-dob"
-                type="date"
+                type="text"
                 required
                 value={dob}
                 onChange={(e) => {
-                  setDob(e.target.value);
+                  setDob(e.target.value.replace(/[^\d/]/g, '').slice(0, 10));
                   if (errors.dob) setErrors((prev) => ({ ...prev, dob: '' }));
                 }}
+                placeholder="DD/MM/YYYY"
+                inputMode="numeric"
+                pattern="\d{2}/\d{2}/\d{4}"
                 className={`w-full pl-9 pr-3 py-2 text-sm rounded-lg border bg-white text-neutral-900 focus:outline-none focus:ring-2 transition-all ${
                   errors.dob
                     ? 'border-red-500 focus:ring-red-200'
@@ -326,7 +369,7 @@ export const RedeemModal: React.FC<RedeemModalProps> = ({
               </p>
             )}
             <p className="text-[11px] text-neutral-400 mt-1">
-              Note: Age under 13 will be classified as <em>"Underage"</em>.
+              Enter your date of birth in European format: <strong>DD/MM/YYYY</strong>. Age under 13 will be classified as <em>"Underage"</em>.
             </p>
           </div>
 

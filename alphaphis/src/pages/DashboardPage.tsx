@@ -28,6 +28,11 @@ interface DashboardPageProps {
   onNavigate: (route: AppRoute) => void;
 }
 
+const formatNepaliDate = (dateString: string) => {
+  const [year, month, day] = dateString.split('-');
+  return year && month && day ? `${day}/${month}/${year}` : dateString;
+};
+
 export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigate }) => {
   const { isAuthenticated, username, logout } = useAuth();
   const [submissions, setSubmissions] = useState<UserSubmission[]>([]);
@@ -89,7 +94,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigate }) => {
       `"${s.name}"`,
       `"${s.email}"`,
       `"${s.phone}"`,
-      `"${s.dob}"`,
+      `"${formatNepaliDate(s.dob)}"`,
       s.calculatedAge,
       `"${s.prize}"`,
       `"${s.status}"`,
@@ -363,7 +368,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigate }) => {
                   <th className="py-3.5 px-4">Name</th>
                   <th className="py-3.5 px-4">Email</th>
                   <th className="py-3.5 px-4">Phone</th>
-                  <th className="py-3.5 px-4">DOB (Age)</th>
+                  <th className="py-3.5 px-4">DOB</th>
                   <th className="py-3.5 px-4">Prize</th>
                   <th className="py-3.5 px-4">Status</th>
                   <th className="py-3.5 px-4">Logged Time</th>
@@ -418,7 +423,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigate }) => {
                       <td className="py-3.5 px-4 text-neutral-700">
                         <div className="flex items-center gap-1.5">
                           <Calendar className="w-3.5 h-3.5 text-neutral-400 shrink-0" />
-                          <span>{sub.dob}</span>
+                          <span>{formatNepaliDate(sub.dob)}</span>
                           <span className={`px-1.5 py-0.2 rounded text-[10px] font-bold ${
                             sub.calculatedAge < 13 ? 'bg-purple-100 text-purple-800' : 'bg-neutral-100 text-neutral-600'
                           }`}>
@@ -531,7 +536,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigate }) => {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-neutral-500 font-semibold">DOB & Age:</span>
-                  <span>{selectedSubmission.dob} ({selectedSubmission.calculatedAge} years old)</span>
+                  <span>{formatNepaliDate(selectedSubmission.dob)} ({selectedSubmission.calculatedAge} years old)</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-neutral-500 font-semibold">Captured At:</span>

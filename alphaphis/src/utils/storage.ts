@@ -1,22 +1,15 @@
 import { SubmissionStatus, UserSubmission } from '../types';
 import { calculateAge } from './validation';
-import {
-  getSubmissionsFromAPI,
-  addSubmissionToAPI,
-  deleteSubmissionFromAPI,
-  clearAllSubmissionsFromAPI,
-  resetToDemoDataOnAPI,
-  checkAPIHealth,
-} from './api';
 
 const STORAGE_KEY = 'phishing_demo_submissions';
+
 const LEGACY_PRIZE_NAMES: Record<string, string> = {
   'iPhone 16 Pro': 'RS 500 for free',
   'Starbucks $50 Card': 'Free Dining',
   'Wireless Headphones': 'Free Dining',
 };
 
-// Fallback localStorage for when backend is unavailable
+// Initial educational seed data representing simulated campus phishing catches
 const INITIAL_DEMO_DATA: UserSubmission[] = [
   {
     id: 'sub_demo_101',
@@ -72,146 +65,69 @@ const INITIAL_DEMO_DATA: UserSubmission[] = [
   },
 ];
 
-let useBackend = true;
-
-/**
- * Get submissions from backend API with fallback to localStorage
- */
-export async function getSubmissions(): Promise<UserSubmission[]> {
+export function getSubmissions(): UserSubmission[] {
   if (typeof window === 'undefined') return [];
-
-  // Try backend first
-  if (useBackend) {
-    try {
-      const isHealthy = await checkAPIHealth();
-      if (isHealthy) {
-        const submissions = await getSubmissionsFromAPI();
-        return processSubmissions(submissions);
-      }
-    } catch (error) {
-      console.warn('Backend unavailable, falling back to localStorage');
-      useBackend = false;
-    }
-  }
-
-  // Fallback to localStorage
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) {
+      // Seed with initial educational sample data
       localStorage.setItem(STORAGE_KEY, JSON.stringify(INITIAL_DEMO_DATA));
       return INITIAL_DEMO_DATA;
     }
-    const submissions = JSON.parse(raw) as UserSubmission[];
-    return processSubmissions(submissions);
+    const submissions = (JSON.parse(raw) as UserSubmission[]).map((submission) => {
+      const calculatedAge = calculateAge(submission.dob);
+      const status: SubmissionStatus = calculatedAge < 13 ? 'Underage' : 'Verified';
+
+      return {
+        ...submission,
+        prize: LEGACY_PRIZE_NAMES[submission.prize] || submission.prize,
+        calculatedAge,
+        status,
+        flagReason:
+          status === 'Underage'
+            ? `Student is underage (${calculatedAge} years old). Minor status flag.`
+            : 'Legitimate-looking target data captured.',
+        riskScore: 'Critical' as const,
+      };
+    });
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(submissions));
+    return submissions;
   } catch (error) {
-    console.error('Failed to load submissions:', error);
+    console.error('Failed to parse submissions from localStorage:', error);
     return [];
   }
 }
 
-/**
- * Add a new submission
- */
-export async function addSubmission(submission: Omit<UserSubmission, 'id'>): Promise<UserSubmission | null> {
-  if (useBackend) {
-    try {
-      const result = await addSubmissionToAPI(submission);
-      return result ? processSubmissions([result])[0] : null;
-    } catch (error) {
-      console.warn('Backend failed, falling back to localStorage');
-      useBackend = false;
-    }
-  }
-
-  // Fallback to localStorage
-  const newSub: UserSubmission = {
+export function saveSubmission(submission: Omit<UserSubmission, 'id' | 'timestamp'>): UserSubmission {
+  const id = `sub_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  const timestamp = new Date().toISOString();
+  const newSubmission: UserSubmission = {
     ...submission,
-    id: `sub_${Date.now()}`,
+    id,
+    timestamp,
   };
-  const current = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-  current.push(newSub);
+
+  const current = getSubmissions();
+  current.push(newSubmission);
   localStorage.setItem(STORAGE_KEY, JSON.stringify(current));
-  return newSub;
+  return newSubmission;
 }
 
-/**
- * Delete a submission
- */
-export async function deleteSubmission(id: string): Promise<UserSubmission[]> {
-  if (useBackend) {
-    try {
-      await deleteSubmissionFromAPI(id);
-      return await getSubmissions();
-    } catch (error) {
-      console.warn('Backend failed, falling back to localStorage');
-      useBackend = false;
-    }
-  }
-
-  // Fallback to localStorage
-  const current = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-  const filtered = current.filter((s: UserSubmission) => s.id !== id);
+export function deleteSubmission(id: string): UserSubmission[] {
+  const current = getSubmissions();
+  const filtered = current.filter((s) => s.id !== id);
   localStorage.setItem(STORAGE_KEY, JSON.stringify(filtered));
   return filtered;
 }
 
-/**
- * Clear all submissions
- */
-export async function clearAllSubmissions(): Promise<void> {
-  if (useBackend) {
-    try {
-      await clearAllSubmissionsFromAPI();
-      return;
-    } catch (error) {
-      console.warn('Backend failed, falling back to localStorage');
-      useBackend = false;
-    }
-  }
-
-  // Fallback to localStorage
+export function clearAllSubmissions(): void {
   localStorage.removeItem(STORAGE_KEY);
 }
 
-/**
- * Reset to demo data
- */
-export async function resetToDemoData(): Promise<UserSubmission[]> {
-  if (useBackend) {
-    try {
-      const result = await resetToDemoDataOnAPI();
-      return processSubmissions(result);
-    } catch (error) {
-      console.warn('Backend failed, falling back to localStorage');
-      useBackend = false;
-    }
-  }
-
-  // Fallback to localStorage
+export function resetToDemoData(): UserSubmission[] {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(INITIAL_DEMO_DATA));
   return INITIAL_DEMO_DATA;
-}
-
-/**
- * Process and normalize submissions
- */
-function processSubmissions(submissions: UserSubmission[]): UserSubmission[] {
-  return submissions.map((submission) => {
-    const calculatedAge = calculateAge(submission.dob);
-    const status: SubmissionStatus = calculatedAge < 13 ? 'Underage' : 'Verified';
-
-    return {
-      ...submission,
-      prize: LEGACY_PRIZE_NAMES[submission.prize] || submission.prize,
-      calculatedAge,
-      status,
-      flagReason:
-        status === 'Underage'
-          ? `Student is underage (${calculatedAge} years old). Minor status flag.`
-          : 'Legitimate-looking target data captured.',
-      riskScore: 'Critical' as const,
-    };
-  });
 }
 
 

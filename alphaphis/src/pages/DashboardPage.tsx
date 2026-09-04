@@ -57,7 +57,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigate }) => {
     if (!isAuthenticated) {
       onNavigate('/login');
     } else {
-      getSubmissions().then(setSubmissions);
+      setSubmissions(getSubmissions());
     }
   }, [isAuthenticated, onNavigate]);
 
@@ -66,20 +66,20 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigate }) => {
     onNavigate('/login');
   };
 
-  const handleClearAll = async () => {
+  const handleClearAll = () => {
     if (window.confirm('Are you sure you want to clear all logged submissions?')) {
-      await clearAllSubmissions();
+      clearAllSubmissions();
       setSubmissions([]);
     }
   };
 
-  const handleResetDemoData = async () => {
-    const fresh = await resetToDemoData();
+  const handleResetDemoData = () => {
+    const fresh = resetToDemoData();
     setSubmissions(fresh);
   };
 
-  const handleDeleteItem = async (id: string) => {
-    const updated = await deleteSubmission(id);
+  const handleDeleteItem = (id: string) => {
+    const updated = deleteSubmission(id);
     setSubmissions(updated);
     if (selectedSubmission?.id === id) {
       setSelectedSubmission(null);

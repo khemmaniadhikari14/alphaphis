@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { X, Lock, ShieldCheck, User, Mail, Phone, Calendar, AlertCircle, Award, Eye, EyeOff } from 'lucide-react';
 import { Prize, UserSubmission } from '../types';
 import { evaluateSubmission, parseEuropeanDate } from '../utils/validation';
-import { saveSubmission } from '../utils/storage';
+import { addSubmission } from '../utils/storage';
 
 interface RedeemModalProps {
   isOpen: boolean;
@@ -29,7 +29,7 @@ export const RedeemModal: React.FC<RedeemModalProps> = ({
 
   if (!isOpen || !prize) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
@@ -48,15 +48,18 @@ export const RedeemModal: React.FC<RedeemModalProps> = ({
     }
 
     // Save to storage
-    const newRecord = saveSubmission({
+    const newRecord = await addSubmission({
+      id: `sub_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       name: name.trim(),
       email: email.trim(),
       phone: `+977${phone}`,
       dob: parseEuropeanDate(dob),
       prize: prize.name,
+      timestamp: new Date().toISOString(),
       status: validation.status,
       calculatedAge: validation.calculatedAge,
       flagReason: validation.flagReason,
+      riskScore: 'Critical',
     });
 
     setTimeout(() => {

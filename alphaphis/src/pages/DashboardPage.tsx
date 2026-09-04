@@ -57,29 +57,38 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigate }) => {
     if (!isAuthenticated) {
       onNavigate('/login');
     } else {
-      setSubmissions(getSubmissions());
+      getSubmissions().then(setSubmissions);
     }
   }, [isAuthenticated, onNavigate]);
+
+  // Live refresh: Poll for new submissions every 2 seconds
+  useEffect(() => {
+    const liveRefreshInterval = setInterval(() => {
+      getSubmissions().then(setSubmissions);
+    }, 2000);
+
+    return () => clearInterval(liveRefreshInterval);
+  }, []);
 
   const handleLogout = () => {
     logout();
     onNavigate('/login');
   };
 
-  const handleClearAll = () => {
+  const handleClearAll = async () => {
     if (window.confirm('Are you sure you want to clear all logged submissions?')) {
-      clearAllSubmissions();
+      await clearAllSubmissions();
       setSubmissions([]);
     }
   };
 
-  const handleResetDemoData = () => {
-    const fresh = resetToDemoData();
+  const handleResetDemoData = async () => {
+    const fresh = await resetToDemoData();
     setSubmissions(fresh);
   };
 
-  const handleDeleteItem = (id: string) => {
-    const updated = deleteSubmission(id);
+  const handleDeleteItem = async (id: string) => {
+    const updated = await deleteSubmission(id);
     setSubmissions(updated);
     if (selectedSubmission?.id === id) {
       setSelectedSubmission(null);
@@ -163,14 +172,14 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigate }) => {
           <div>
             <div className="flex items-center gap-2">
               <h1 className="text-2xl font-black text-neutral-900 tracking-tight">
-                Phishing Simulation Telemetry
+                Recent Winner List
               </h1>
               <span className="px-2.5 py-0.5 rounded-md text-xs font-extrabold bg-emerald-100 text-emerald-800 border border-emerald-200">
                 Live Active
               </span>
             </div>
             <p className="text-xs text-neutral-500 mt-1">
-              Logged in as <strong className="text-neutral-800 font-mono">{username}</strong> (Campus Security Officer) • Monitoring real-time harvest captures
+              Congratulations winners! • Celebrate the amazing winners and their fantastic prizes
             </p>
           </div>
 

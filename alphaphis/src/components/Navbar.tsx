@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShieldCheck, Sparkles, LayoutDashboard, LogOut, UserCheck } from 'lucide-react';
+import { Sparkles, LayoutDashboard, LogOut, UserCheck } from 'lucide-react';
 import { AppRoute } from '../types';
 import { useAuth } from '../context/AuthContext';
 
@@ -24,9 +24,11 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate }) => {
           onClick={() => onNavigate('/')}
           className="flex items-center gap-3 cursor-pointer group"
         >
-          <div className="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-md shadow-blue-600/20 group-hover:scale-105 transition-transform">
-            <ShieldCheck className="w-6 h-6" />
-          </div>
+          <img
+            src="/assets/school-emblem.png"
+            alt="Global Educational Academy emblem"
+            className="w-11 h-11 object-contain group-hover:scale-105 transition-transform"
+          />
           <div>
             <div className="flex items-center gap-1.5">
               <span className="text-sm font-black text-neutral-900 tracking-tight">

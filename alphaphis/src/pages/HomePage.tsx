@@ -73,6 +73,22 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
         {/* Static List of Recent Winners */}
         <RecentWinners />
 
+        {/* Supporting education partners */}
+        <section className="mt-10 flex flex-col items-center gap-5" aria-label="Education partners">
+          <div className="flex w-full flex-col items-center justify-center gap-6 rounded-2xl border border-neutral-200 bg-white px-6 py-6 sm:flex-row sm:gap-10">
+            <img
+              src="/assets/my-second-teacher.png"
+              alt="My Second Teacher"
+              className="h-24 w-auto max-w-full object-contain sm:h-28"
+            />
+            <img
+              src="/assets/ing-skill-academy.png"
+              alt="ING Skill Academy"
+              className="h-20 w-auto max-w-full object-contain sm:h-24"
+            />
+          </div>
+        </section>
+
         {/* Clean educational footer */}
         <footer className="mt-12 pt-8 border-t border-neutral-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-neutral-500">
           <div className="flex items-center gap-2">

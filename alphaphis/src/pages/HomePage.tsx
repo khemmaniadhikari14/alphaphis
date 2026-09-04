@@ -57,7 +57,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           </h1>
 
           <p className="text-sm sm:text-base text-neutral-600 mt-2 leading-relaxed">
-            All registered undergraduate and graduate students get 1 free lucky spin. Win RS 500 for free, Free Dining, Free coffee Party, Rs 100 recharge, or Free airbuds!
+            All registered undergraduate and graduate students get 1 free lucky spin. Win RS 500 for free, Free Dining, Free coffee, Rs 100 recharge, or Free airbuds!
           </p>
         </div>
 
@@ -82,9 +82,9 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               className="h-24 w-auto max-w-full object-contain sm:h-28"
             />
             <img
-              src="/assets/ing-skill-academy.png"
-              alt="ING Skill Academy"
-              className="h-20 w-auto max-w-full object-contain sm:h-24"
+              src="/assets/school-emblem.png"
+              alt="Global Educational Academy emblem"
+              className="h-32 w-auto max-w-full object-contain sm:h-40"
             />
           </div>
         </section>

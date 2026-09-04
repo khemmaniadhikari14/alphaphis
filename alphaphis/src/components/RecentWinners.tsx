@@ -34,7 +34,7 @@ const STATIC_WINNERS: Winner[] = [
     id: 'win_4',
     name: 'Aakrist Baral',
     initials: 'AB',
-    prize: 'Free coffee Party',
+    prize: 'Free coffee',
     department: 'Arts & Humanities',
     timeAgo: '19 minutes ago',
     avatarColor: 'bg-purple-600 text-white',

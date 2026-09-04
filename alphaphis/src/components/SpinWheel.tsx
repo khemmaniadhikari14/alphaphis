@@ -24,7 +24,7 @@ export const PRIZES: Prize[] = [
   },
   {
     id: 2,
-    name: 'Free coffee Party',
+    name: 'Free coffee',
     tagline: 'Enjoy coffee as per your choice',
     color: '#ea580c', // Orange
     textColor: '#ffffff',

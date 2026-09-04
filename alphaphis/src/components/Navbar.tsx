@@ -25,8 +25,8 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate }) => {
           className="flex items-center gap-3 cursor-pointer group"
         >
           <img
-            src="/assets/school-emblem.png"
-            alt="Global Educational Academy emblem"
+            src="/assets/ing-skill-academy.png"
+            alt="ING Skill Academy"
             className="w-11 h-11 object-contain group-hover:scale-105 transition-transform"
           />
           <div>

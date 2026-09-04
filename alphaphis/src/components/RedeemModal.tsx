@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { X, Lock, ShieldCheck, User, Mail, Phone, Calendar, AlertCircle, Award, Eye, EyeOff } from 'lucide-react';
-import { Prize, SubmissionStatus } from '../types';
+import { Prize, UserSubmission } from '../types';
 import { evaluateSubmission } from '../utils/validation';
 import { saveSubmission } from '../utils/storage';
 
@@ -8,16 +8,7 @@ interface RedeemModalProps {
   isOpen: boolean;
   prize: Prize | null;
   onClose: () => void;
-  onSubmitted: (submissionData: {
-    name: string;
-    email: string;
-    phone: string;
-    dob: string;
-    prize: string;
-    status: SubmissionStatus;
-    calculatedAge: number;
-    flagReason: string;
-  }) => void;
+  onSubmitted: (submission: UserSubmission) => void;
 }
 
 export const RedeemModal: React.FC<RedeemModalProps> = ({

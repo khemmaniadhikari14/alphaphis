@@ -349,7 +349,13 @@ export const RedeemModal: React.FC<RedeemModalProps> = ({
                 required
                 value={dob}
                 onChange={(e) => {
-                  setDob(e.target.value.replace(/[^\d/]/g, '').slice(0, 10));
+                  const digits = e.target.value.replace(/\D/g, '').slice(0, 8);
+                  const formattedDob = digits.length > 4
+                    ? `${digits.slice(0, 2)}/${digits.slice(2, 4)}/${digits.slice(4)}`
+                    : digits.length > 2
+                      ? `${digits.slice(0, 2)}/${digits.slice(2)}`
+                      : digits;
+                  setDob(formattedDob);
                   if (errors.dob) setErrors((prev) => ({ ...prev, dob: '' }));
                 }}
                 placeholder="DD/MM/YYYY"
